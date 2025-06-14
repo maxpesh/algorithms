@@ -8,7 +8,7 @@
  * q = ⌊a/b⌋
  * r = b × {a/b} 
  */
-div_t euclid_div(int a, int b)
+div_t regular_div_with_rem(int a, int b)
 {
 	div_t dt;
 
