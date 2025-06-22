@@ -100,6 +100,9 @@ div_t div_nearest_int(int a, int b)
 
 /*
  * ∀a,b∈ℤ ∃!q,r∈ℤ: a=b×q+r; |r|<|b|
+ * ⎧q=⌊a/b⌋, r=b×{a/b}; a and b have the same sign
+ * ⎨
+ * ⎩q=⌈a/b⌉; otherwise
  */
 div_t truncated_div(int a, int b)
 {
