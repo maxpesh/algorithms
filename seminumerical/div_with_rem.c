@@ -98,6 +98,39 @@ div_t div_nearest_int(int a, int b)
 	return dt;
 }
 
+/*
+ * ∀a,b∈ℤ ∃!q,r∈ℤ: a=b×q+r; |r|<|b|
+ */
+div_t truncated_div(int a, int b)
+{
+	div_t dt;
+
+	if (b == 0)
+		errx(EXIT_FAILURE, "The denominator can't be 0");
+	if ((a > 0) == (b > 0)) /* dividend and divisor have the same sign*/
+		dt.quot = (int)floor((double)a / b);
+	else
+		dt.quot = (int)ceil((double)a / b);
+	dt.rem = a - b * dt.quot;
+	return dt;
+}
+
+/*
+ * ∀a,b∈ℤ ∃!q,r∈ℤ: a=b×q+r; |r|<|b|
+ * q=⌊a/b⌋, r=b×{a/b}
+ */
+div_t floor_div(int a, int b)
+{
+	div_t dt;
+
+	if (b == 0)
+		errx(EXIT_FAILURE, "The denominator can't be 0");
+	dt.quot = (int)floor((double)a / b);
+	dt.rem = a - b * dt.quot;
+	return dt;
+}
+
+
 /********************TESTS********************/
 #include <assert.h>
 
@@ -179,6 +212,38 @@ static void test_div_nearest_int(void)
 	test_div(div_nearest_int, sizeof args / sizeof args[0], args, expect);
 }
 
+static void test_truncated_div(void)
+{
+	int args[][2] = {
+	    {8,3}, {8,-3}, {-8,3}, {-8,-3},
+	    {1,2}, {1,-2}, {-1,2}, {-1,-2},
+	    {0,5},
+	};
+	int expect[][2] = {
+	    {2,2}, {-2,2}, {-2,-2}, {2,-2},
+	    {0,1}, {0,1}, {0,-1}, {0,-1},
+	    {0,0},
+	};
+
+	test_div(truncated_div, sizeof args / sizeof args[0], args, expect);
+}
+
+static void test_floor_div(void)
+{
+	int args[][2] = {
+	    {8,3}, {8,-3}, {-8,3}, {-8,-3},
+	    {1,2}, {1,-2}, {-1,2}, {-1,-2},
+	    {0,5},
+	};
+	int expect[][2] = {
+	    {2,2}, {-3,-1}, {-3,1}, {2,-2},
+	    {0,1}, {-1,-1}, {-1,1}, {0,-1},
+	    {0,0},
+	};
+
+	test_div(floor_div, sizeof args / sizeof args[0], args, expect);
+}
+
 int main(void)
 {
 	test_regular_div_with_rem();
@@ -186,5 +251,7 @@ int main(void)
 	test_div_with_neg_rem();
 	test_div_away_from_zero();
 	test_div_nearest_int();
+	test_truncated_div();
+	test_floor_div();
 	return EXIT_SUCCESS;
 }
