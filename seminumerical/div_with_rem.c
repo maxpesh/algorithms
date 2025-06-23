@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <math.h>
-#include <errno.h>
 #include <err.h>
 #include <limits.h>
 
