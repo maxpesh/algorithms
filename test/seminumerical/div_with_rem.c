@@ -4,7 +4,7 @@
 #include <math.h>
 #include "div_with_rem.h"
 
-static void test_div(int (*args)[2], size_t args_len, div_t (*divp)(int, int),
+static void expect_div(int (*args)[2], size_t args_len, div_t (*divp)(int, int),
     div_t(*expect_divp)(int, int))
 {
 	div_t dt;
@@ -18,14 +18,14 @@ static void test_div(int (*args)[2], size_t args_len, div_t (*divp)(int, int),
 	}
 }
 
-static void test_udiv(int (*args)[2], size_t args_len, div_t (*divp)(int, unsigned),
+static void expect_udiv(int (*args)[2], size_t args_len, div_t (*divp)(int, unsigned),
     div_t(*expect_divp)(int, unsigned))
 {
-	test_div(args, args_len,
+	expect_div(args, args_len,
 	    (div_t (*)(int, int))divp, (div_t (*)(int, int))expect_divp);
 }
 
-static div_t test_regular_div_with_rem(int a, unsigned int b)
+static div_t expect_regular_div_with_rem(int a, unsigned int b)
 {
 	div_t dt;
 	int bs;
@@ -36,7 +36,7 @@ static div_t test_regular_div_with_rem(int a, unsigned int b)
 	return dt;
 }
 
-static div_t test_euclidian_div(int a, int b)
+static div_t expect_euclidian_div(int a, int b)
 {
 	div_t dt;
 
@@ -48,7 +48,7 @@ static div_t test_euclidian_div(int a, int b)
 	return dt;
 }
 
-static div_t test_div_with_neg_rem(int a, unsigned int b)
+static div_t expect_div_with_neg_rem(int a, unsigned int b)
 {
 	div_t dt;
 	int bs;
@@ -59,7 +59,7 @@ static div_t test_div_with_neg_rem(int a, unsigned int b)
 	return dt;
 }
 
-static div_t test_div_away_from_zero(int a, int b)
+static div_t expect_div_away_from_zero(int a, int b)
 {
 	div_t dt;
 
@@ -71,7 +71,7 @@ static div_t test_div_away_from_zero(int a, int b)
 	return dt;
 }
 
-static div_t test_div_nearest_int(int a, int b)
+static div_t expect_div_nearest_int(int a, int b)
 {
 	div_t dt;
 
@@ -80,7 +80,7 @@ static div_t test_div_nearest_int(int a, int b)
 	return dt;
 }
 
-static div_t test_truncated_div(int a, int b)
+static div_t expect_truncated_div(int a, int b)
 {
 	div_t dt;
 
@@ -92,7 +92,7 @@ static div_t test_truncated_div(int a, int b)
 	return dt;
 }
 
-static div_t test_floor_div(int a, int b)
+static div_t expect_floor_div(int a, int b)
 {
 	div_t dt;
 
@@ -127,12 +127,12 @@ int main(void)
         };
 	size_t args_len = sizeof args / sizeof args[0];
 
-	test_udiv(uargs, uargs_len, regular_div_with_rem, test_regular_div_with_rem);
-	test_div(args, args_len, euclidian_div, test_euclidian_div);
-	test_udiv(uargs, uargs_len, div_with_neg_rem, test_div_with_neg_rem);
-	test_div(args, args_len, div_away_from_zero, test_div_away_from_zero);
-	test_div(args, args_len, div_nearest_int, test_div_nearest_int);
-	test_div(args, args_len, truncated_div, test_truncated_div);
-	test_div(args, args_len, floor_div, test_floor_div);
+	expect_udiv(uargs, uargs_len, regular_div_with_rem, expect_regular_div_with_rem);
+	expect_div(args, args_len, euclidian_div, expect_euclidian_div);
+	expect_udiv(uargs, uargs_len, div_with_neg_rem, expect_div_with_neg_rem);
+	expect_div(args, args_len, div_away_from_zero, expect_div_away_from_zero);
+	expect_div(args, args_len, div_nearest_int, expect_div_nearest_int);
+	expect_div(args, args_len, truncated_div, expect_truncated_div);
+	expect_div(args, args_len, floor_div, expect_floor_div);
 	return EXIT_SUCCESS;
 }
