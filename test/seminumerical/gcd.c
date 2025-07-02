@@ -30,6 +30,10 @@ static void test_gcd(unsigned (*gcdp)(int, int))
 int main(void)
 {
 	test_gcd(gcd_mod_op);
-	test_gcd(gcd_euclid);
+	test_gcd(gcd_euclidian_div);
+	test_gcd(gcd_div_away_from_zero);
+	test_gcd(gcd_truncated_div);
+	test_gcd(gcd_floor_div);
+	test_gcd(gcd_div_nearest_int);
 	return EXIT_SUCCESS;
 }
