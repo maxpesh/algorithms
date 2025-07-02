@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "div_with_rem.h"
 
 unsigned gcd_mod_op(int a, int b)

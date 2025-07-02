@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 /*
  * ∀a∈ℤ,b∈ℕ ∃!q,r∈ℤ: a=b×q+r; 0≤r<b
  * q=⌊a/b⌋, r=b×{a/b} 

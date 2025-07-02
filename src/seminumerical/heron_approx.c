@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <math.h>
 
 static double const eps = 1E-24;
