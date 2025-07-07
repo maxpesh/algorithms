@@ -7,6 +7,16 @@
 
 static signed char buf[BUF_SIZE];
 
+/*
+ * ⎧d=n%rd,n=⌊n/rd⌋; n≥0
+ * ⎨
+ * ⎩d=n-rd*⌈n/rd⌉,n=⌈n/rd⌉; n<0
+ * Calculations are done in the source radix (10).
+ *
+ * <n> - number to convert
+ * <rd> - target radix
+ * <len>:out - # of digits in the converted number
+ */
 signed char *radix_conv(int n, unsigned rd, unsigned *len)
 {
 	signed char *ds = buf;
