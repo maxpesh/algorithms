@@ -4,8 +4,6 @@
  * where each element represents a digit that can be positive or negative.
  * ∀n∈ℤ,r∈ℕ r > 1
  * n = ±d_n-1 * r^(n-1) ± d_n-2 * r^(n-2) ± ... ± d_1 * r^1 ± d_0 * r^0
- *
- * Computations are performed in the source radix (10).
  */
 
 #include <stdlib.h>
@@ -23,8 +21,11 @@ static signed char buf[BUF_SIZE];
  * ⎩d=n-rd*⌈n/rd⌉,n=⌈n/rd⌉; n<0
  * Calculations are done in the source radix (10).
  *
+ * Contract: rd ≥ 2
+
+ * Parameters:
  * <n> - number to convert
- * <rd> - target radix
+ * <rd> - destination radix
  * <len>:out - # of digits in the converted number
  */
 signed char *radix_conv(int n, unsigned rd, unsigned *len)
