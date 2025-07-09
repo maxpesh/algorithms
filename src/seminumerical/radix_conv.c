@@ -1,10 +1,11 @@
 /*
  * Converts a number from one radix to another.
- * The resulting number is returned as array of signed chars, where each element
- * represents a digit (can be negative) in the resulting number:
- * n∈ℤ,r∈ℕ n = ±dn-1 * r^n-1 ± dn-2 * r^n-2 ± ... ± d1 * r^1 ± d0 * r^0
+ * The resulting number in the target radix is returned as an array of signed chars,
+ * where each element represents a digit that can be positive or negative.
+ * ∀n∈ℤ,r∈ℕ r > 1
+ * n = ±d_n-1 * r^(n-1) ± d_n-2 * r^(n-2) ± ... ± d_1 * r^1 ± d_0 * r^0
  *
- * Computations are done in the source radix (10).
+ * Computations are performed in the source radix (10).
  */
 
 #include <stdlib.h>
