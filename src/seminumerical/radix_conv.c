@@ -1,3 +1,12 @@
+/*
+ * Converts a number from one radix to another.
+ * The resulting number is returned as array of signed chars, where each element
+ * represents a digit (can be negative) in the resulting number:
+ * n∈ℤ,r∈ℕ n = ±dn-1 * r^n-1 ± dn-2 * r^n-2 ± ... ± d1 * r^1 ± d0 * r^0
+ *
+ * Computations are done in the source radix (10).
+ */
+
 #include <stdlib.h>
 #include <math.h>
 #include <limits.h>
