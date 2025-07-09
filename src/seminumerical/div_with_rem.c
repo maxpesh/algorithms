@@ -1,3 +1,17 @@
+/*
+ * Calculates quotent and remainder of dividing one integer by another, using
+ * different division algorithms:
+ * - Regular division with remainder: dividend∈ℤ,divisor∈ℕ
+ * - Euclidian division: dividend∈ℤ,divisor∈ℤ
+ * - Division with negative remainder: dividend∈ℤ,divisor∈ℕ
+ * - Division away from 0:  dividend∈ℤ,divisor∈ℤ 
+ * - Division to the nearest integer:  dividend∈ℤ,divisor∈ℤ
+ * - Truncated division:  dividend∈ℤ,divisor∈ℤ
+ * - Floored division:  dividend∈ℤ,divisor∈ℤ
+ *
+ * All functions assume that the C '/' operator truncates towards zero.
+ */
+
 #include <stdlib.h>
 #include <math.h>
 
