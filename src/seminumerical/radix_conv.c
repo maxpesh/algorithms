@@ -28,7 +28,7 @@ static signed char buf[BUF_SIZE];
  * <rd> - destination radix
  * <len>:out - # of digits in the converted number
  */
-signed char *radix_conv(int n, unsigned rd, unsigned *len)
+signed char *radix_convi(int n, unsigned rd, unsigned *len)
 {
 	signed char *ds = buf;
 	unsigned i = 0, j = 0;
@@ -50,5 +50,31 @@ signed char *radix_conv(int n, unsigned rd, unsigned *len)
 		buf[i] = buf[j];
 		buf[j] = t;
 	}
+	return buf;
+}
+
+signed char *radix_convf(float n, unsigned rd, unsigned *len)
+{
+	int int_part;
+	float fr_part;
+	signed char *ds = buf;
+	unsigned i = 0, j = 0;
+	unsigned ipart_len = 0;
+
+	*len = 0;
+	/* converting integer part */
+	int_part = (int)n;
+	ds = radix_convi(int_part, rd, len);
+	ipart_len = *len;
+	ds = ds + ipart_len;
+	/* converting fractional part */
+	fr_part = n - int_part;
+	do {
+		float prod = fr_part * rd;
+		int ipart = (int)prod;
+		*ds++ = (signed char)ipart;
+		++*len;
+		fr_part = prod - ipart;
+	} while (fr_part != 0);
 	return buf;
 }

@@ -5,7 +5,7 @@
 #include <assert.h>
 #include "radix_conv.h"
 
-int main(void)
+static void test_radix_convi(void)
 {
 	int test_cases[][2] = {
 	    {109,10}, {-109,10},
@@ -29,7 +29,7 @@ int main(void)
 
 	for (i = 0; i < nc; ++i) {
 		unsigned j = 0, len = 0;
-		signed char *digs = radix_conv(test_cases[i][0],
+		signed char *digs = radix_convi(test_cases[i][0],
 		    (unsigned)test_cases[i][1], &len);
 		char *s = strdup(expected[i]);
 
@@ -39,5 +39,43 @@ int main(void)
 			s = NULL;
 		}
 	}
+}
+
+static void test_radix_convf(void)
+{
+	float test_cases[][2] = {
+	    {109.703125,10}, {-109.703125,10},
+	    {109.703125,2}, {-109.703125,2},
+	};
+	char *expected[] = {
+	    "1,0,9,7,0,3,1,2,5", "-1,0,-9,-7,0,-3,-1,-2,-5",
+/*	     ----- -----------    ------- ----------------
+	      int    fract         int         fract       */
+	    "1,1,0,1,1,0,1,1,0,1,1,0,1", "-1,-1,0,-1,-1,0,-1,-1,0,-1,-1,0,-1",
+/*	     ------------- -----------    ------------------ ---------------
+	          int         fract               int              fract     */
+	};
+	unsigned nc = sizeof test_cases / sizeof *test_cases;
+	unsigned i = 0;
+
+	for (i = 0; i < nc; ++i) {
+		unsigned j = 0, len = 0;
+		signed char *digs = radix_convf(test_cases[i][0],
+		    (unsigned)test_cases[i][1], &len);
+		char *s = strdup(expected[i]);
+
+		for (j = 0; j < len; ++j) {
+			s = strtok(s, ",");
+			assert(atoi(s) == digs[j]);
+			s = NULL;
+		}
+	}
+}
+
+
+int main(void)
+{
+	test_radix_convi();
+	test_radix_convf();
 	return EXIT_SUCCESS;
 }
