@@ -9,6 +9,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <limits.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <float.h>
 #include "div_with_rem.h"
 
 #define BUF_SIZE (sizeof(int) * CHAR_BIT)
@@ -28,7 +31,7 @@ static signed char buf[BUF_SIZE];
  * <rd> - destination radix
  * <len>:out - # of digits in the converted number
  */
-signed char *radix_convi(int n, unsigned rd, unsigned *len)
+signed char *radix_convi(int n, unsigned char rd, unsigned *len)
 {
 	signed char *ds = buf;
 	unsigned i = 0, j = 0;
@@ -53,24 +56,41 @@ signed char *radix_convi(int n, unsigned rd, unsigned *len)
 	return buf;
 }
 
-signed char *radix_convf(float n, unsigned rd, unsigned *len)
+/* Returns the number of set bits */
+static size_t popcount(uintmax_t num) {
+  size_t precision = 0;
+  while (num != 0) {
+    if (num % 2 == 1) {
+      precision++;
+    }
+    num >>= 1;
+  }
+  return precision;
+}
+#define PRECISION(umax_value) popcount(umax_value)
+
+signed char *radix_convf(double n, unsigned char rd, unsigned *len)
 {
 	int int_part;
-	float fr_part;
+	double fr_part;
 	signed char *ds = buf;
-	unsigned i = 0, j = 0;
 	unsigned ipart_len = 0;
 
 	*len = 0;
 	/* converting integer part */
-	int_part = (int)n;
+	if (isnan(n) || PRECISION(INT_MAX) < log2(fabs(n))
+	    || (n != 0.0F && fabs(n) < DBL_MIN)) {
+		return NULL;
+	} else {
+		int_part = (int)n;
+	}
 	ds = radix_convi(int_part, rd, len);
+	/* converting fractional part */
 	ipart_len = *len;
 	ds = ds + ipart_len;
-	/* converting fractional part */
 	fr_part = n - int_part;
 	do {
-		float prod = fr_part * rd;
+		double prod = fr_part * rd;
 		int ipart = (int)prod;
 		*ds++ = (signed char)ipart;
 		++*len;
