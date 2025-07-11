@@ -43,9 +43,10 @@ static void test_radix_convi(void)
 
 static void test_radix_convf(void)
 {
-	float test_cases[][2] = {
+	double test_cases[][2] = {
 	    {109.703125,10}, {-109.703125,10},
 	    {109.703125,2}, {-109.703125,2},
+	    {1.5,2}, {-1.5,2},
 	};
 	char *expected[] = {
 	    "1,0,9,7,0,3,1,2,5", "-1,0,-9,-7,0,-3,-1,-2,-5",
@@ -54,6 +55,9 @@ static void test_radix_convf(void)
 	    "1,1,0,1,1,0,1,1,0,1,1,0,1", "-1,-1,0,-1,-1,0,-1,-1,0,-1,-1,0,-1",
 /*	     ------------- -----------    ------------------ ---------------
 	          int         fract               int              fract     */
+	    "1,1",    "-1,-1",
+/*	     - -       -- --
+	   int fract  int fract */
 	};
 	unsigned nc = sizeof test_cases / sizeof *test_cases;
 	unsigned i = 0;
@@ -64,8 +68,8 @@ static void test_radix_convf(void)
 		    (unsigned)test_cases[i][1], &len);
 		char *s = strdup(expected[i]);
 
-		for (j = 0; j < len; ++j) {
-			s = strtok(s, ",");
+		for (j = 0; (s = strtok(s, ",")) != NULL; ++j) {
+			assert(j < len);
 			assert(atoi(s) == digs[j]);
 			s = NULL;
 		}
