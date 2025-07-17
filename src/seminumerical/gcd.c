@@ -1,26 +1,20 @@
 /*
- * Calculates Greatest Common Divisor of two integers using Euclidian algorithm.
- * Functions are named after the particular division with remainder implementation
- * they use in calculations.
- *
  * ∀a,b∈ℤ
  * If b = 0, then (a,b) = |a|
  * Otherwise, the algorithm proceeds as follows:
- * r0 = a
- * r1 = b
- * r0 = q1 * b + r2; 0 ≤ r2 ≤ b
- * r1 = q2 * r2 + r3; 0 ≤ r3 ≤ r2
- * r2 = q3 * r3 + r4; 0 ≤ r4 ≤ r3
- *    . . .
- * rn-2 = qn-1 * rn-1 + rn; 0 ≤ rn ≤ rn-1
- * rn-1 = qn * rn + 0
+ * r_0 = a, r_1 = b
+ * r_0 = q_1 * r_1 + r_2; 0 ≤ r_2 ≤ r_1
+ * r_1 = q_2 * r_2 + r_3; 0 ≤ r_3 ≤ r_2
+ * r_2 = q_3 * r_3 + r_4; 0 ≤ r_4 ≤ r_3
+ *               . . .
+ * r_n-2 = q_n-1 * r_n-1 + r_n; 0 ≤ r_n ≤ r_n-1
+ * r_n-1 = q_n * r_n + 0
  *
- * (a,b) = (b,r2) = (r2,r3) = ... = (rn-1,rn) = (rn,0) = rn
+ * (a,b) = (b,r_2) = (r_2,r_3) = ... = (r_n-1,r_n) = (r_n,0) = r_n
  *
  * Complexity:
- *  - best case: Θ(1), if b|a
- *  - worst case: O(5v); v - # of digits in min(a,b).
- *    @see https://en.wikipedia.org/wiki/Lam%C3%A9%27s_theorem
+ * - best case: Θ(1), if b|a
+ * - worst case: O(5v); v - # of digits in min(a,b).
  */
 
 #include "div_with_rem.h"

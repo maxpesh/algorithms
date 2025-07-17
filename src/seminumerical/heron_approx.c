@@ -1,8 +1,6 @@
 /*
- * Heron's algorithm for approximating sqrt(a).
- *
  * Given a∈ℝ let x0 be any positive initial estimate:
- * xn+1 = (xn + a/xn)/2, until |xn+1-xn|<ε; ε∈ℝ- desired accuracy
+ * x_n+1 = (x_n + a / x_n) / 2, until |x_n + 1 - x_n| < ε; ε∈ℝ- desired accuracy
  */
 
 #include <math.h>

@@ -11,9 +11,6 @@
 static signed char buf[BUF_SIZE];
 
 /*
- * Converts an integer number from one radix to another.
- * The resulting number in the target radix is returned as an array of signed chars,
- * where each element represents a digit that can be positive or negative.
  * ∀n∈ℤ,r∈ℕ r > 1
  * n = ±d_n-1 * r^(n-1) ± d_n-2 * r^(n-2) ± ... ± d_1 * r^1 ± d_0 * r^0
  *
@@ -25,11 +22,6 @@ static signed char buf[BUF_SIZE];
  * Calculations are done in the source radix (10).
  *
  * Contract: r ≥ 2
-
- * Parameters:
- * <n> - number to convert
- * <r> - destination radix
- * <len>:out - # of digits in the converted number
  */
 signed char *radix_convi(int n, unsigned char r, unsigned *len)
 {
@@ -70,12 +62,6 @@ static size_t popcount(uintmax_t num) {
 #define PRECISION(umax_value) popcount(umax_value)
 
 /*
- * Converts a rational number from one radix to another.
- * The resulting number in the target radix is returned as an array of signed chars,
- * where each element represents a digit that can be positive or negative.
- * For example if n = -1.5 and r = 2 the resulting array would be: {-1,-1}
- *                                                                  -- --
- *                                                                 int fract
  * ∀n∈ℤ,r∈ℕ r > 1
  * n = ±d_n-1 * r^(n-1) ± d_n-2 * r^(n-2) ± ... ± d_1 * r^1 ± d_0 * r^0 ± 
  *     ---------------------------------------------------------------- integer part
@@ -94,11 +80,6 @@ static size_t popcount(uintmax_t num) {
  * Calculations are done in the source radix (10).
  *
  * Contract: r ≥ 2
- *
- * Parameters:
- * <n> - number to convert
- * <r> - destination radix
- * <len>:out - # of digits in the converted number
  */
 signed char *radix_convf(double n, unsigned char r, unsigned *len)
 {
