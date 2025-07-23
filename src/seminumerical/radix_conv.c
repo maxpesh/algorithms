@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <float.h>
 #include "div_with_rem.h"
+#include "radix_conv.h"
 
 #define BUF_SIZE 200
 
@@ -81,32 +82,34 @@ static size_t popcount(uintmax_t num) {
  *
  * Contract: r ≥ 2
  */
-signed char *radix_convf(double n, unsigned char r, unsigned *len)
+fixed_point radix_convf(double n, unsigned char r, unsigned *int_len, unsigned *fract_len)
 {
 	int int_part;
 	double fr_part;
 	signed char *ds = buf;
-	unsigned ipart_len = 0;
+	fixed_point fp = {0, 0};
 
-	*len = 0;
+	*int_len = 0;
+	*fract_len = 0;
 	/* converting integer part */
 	if (isnan(n) || PRECISION(INT_MAX) < log2(fabs(n))
 	    || (n != 0.0F && fabs(n) < DBL_MIN)) {
-		return NULL;
+		return fp;
 	} else {
 		int_part = (int)n;
 	}
-	ds = radix_convi(int_part, r, len);
+	ds = radix_convi(int_part, r, int_len);
+	fp.int_part = ds;
 	/* converting fractional part */
-	ipart_len = *len;
-	ds = ds + ipart_len;
+	ds = ds + *int_len;
+	fp.fract_part = ds;
 	fr_part = n - int_part;
 	do {
 		double prod = fr_part * r;
 		int ipart = (int)prod;
 		*ds++ = (signed char)ipart;
-		++*len;
+		++*fract_len;
 		fr_part = prod - ipart;
 	} while (fr_part != 0);
-	return buf;
+	return fp;
 }
