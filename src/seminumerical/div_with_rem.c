@@ -109,12 +109,12 @@ div_t div_nearest_int(int a, int b)
 
 	fp = (double)a / b - floor((double)a / b);
 	if (fp > 0.5) { /* don't account for rounding error */
-		if (dt.rem != 0 && (a > 0 == b > 0)) {
+		if (dt.rem != 0 && ((a > 0) == (b > 0))) {
 			++dt.quot;
 			dt.rem -= b;
 		}
 	} else {
-		if (dt.rem != 0 && (a > 0 != b > 0)) {
+		if (dt.rem != 0 && ((a > 0) != (b > 0))) {
 			--dt.quot;
 			dt.rem += b;
 		}
@@ -147,7 +147,7 @@ div_t floor_div(int a, int b)
 {
 	div_t dt = div(a, b);
 
-	if (dt.rem != 0 && (a > 0 != b > 0)) {
+	if (dt.rem != 0 && ((a > 0) != (b > 0))) {
 		--dt.quot;
 		dt.rem += b;
 	}
