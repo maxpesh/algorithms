@@ -5,20 +5,29 @@
 #define MAX_LEN 20
 static int numers_buf[MAX_LEN];
 static int denoms_buf[MAX_LEN];
+static double convergents_buf[MAX_LEN];
 
 cont_fract simple_cont_fraction(int p, unsigned q)
 {
-	cont_fract cf = {NULL, NULL, 0};
-	unsigned r;
+	cont_fract cf = {NULL, NULL, NULL, 0};
+	int ps[3] = {0, 1, 0};
+	int qs[3] = {1, 0, 0};
+	unsigned r = 0;
 
 	if (q == 0)
 		return cf;
 	cf.partial_numers = numers_buf;
 	cf.partial_denoms = denoms_buf;
+	cf.convergents = convergents_buf;
 	while (q != 0 && cf.len < MAX_LEN) {
 		div_t dt = regular_div_with_rem(p, q);
 		cf.partial_numers[cf.len] = 1;
-		cf.partial_denoms[cf.len++] = dt.quot;
+		cf.partial_denoms[cf.len] = dt.quot;
+		ps[2] = dt.quot * ps[1] + ps[0];
+		ps[0] = ps[1], ps[1] = ps[2];
+		qs[2] = dt.quot * qs[1] + qs[0];
+		qs[0] = qs[1], qs[1] = qs[2];
+		cf.convergents[cf.len++] = (double)ps[2] / qs[2];
 		r = (unsigned)dt.rem;
 		p = (int)q;
 		q = r;
