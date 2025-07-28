@@ -7,6 +7,25 @@ static int numers_buf[MAX_LEN];
 static int denoms_buf[MAX_LEN];
 static double convergents_buf[MAX_LEN];
 
+/*
+ * ∀a∈ℤ,b∈ℕ ∃!q,r∈ℤ: a=b×q+r; 0≤r<b
+ * q=⌊a/b⌋, r=b×{a/b} 
+ *
+ * r_0 = a, r_1 = b
+ * r_0 = q_1 * r_1 + r_2; 0 < r_2 < r_1
+ * r_1 = q_2 * r_2 + r_3; 0 < r_3 < r_2
+ *               . . .
+ * r_n-2 = q_n-1 * r_n-1 + r_n; 0 < r_n < r_n-1
+ * r_n-1 = q_n * r_n + 0
+ *
+ * Simple continued fraction:
+ * a / b = [q_1;q_2,...q_n]
+ * 
+ * Convergents:
+ * [a_0;a_1,...,a_i] = p_i / q_i
+ * p_n = [a_0,a_1,...,a_n] = a_n * p_n-1 + p_n-2
+ * q_n = [a_1,a_2,...,a_n] = a_n * q_n-1 + q_n-2
+ */
 cont_fract simple_cont_fraction(int p, unsigned q)
 {
 	cont_fract cf = {NULL, NULL, NULL, 0};
@@ -34,20 +53,3 @@ cont_fract simple_cont_fraction(int p, unsigned q)
 	}
 	return cf;
 }
-
-/*
-convergents regular_convergents(double d)
-{
-	convergents c = {a, 0};
-	int q = (int)floor(d);
-	double r = d - q;
-
-	while (r != 0 && c.len < MAX_LEN) {
-		d = 1 / r;
-		q = (int)floor(d);
-		c.partial_denoms[c.len++] = q;
-		r = d - q;
-	}
-	return c;
-}
-*/
