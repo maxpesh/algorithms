@@ -55,7 +55,7 @@ unsigned gcd_with_neg_rem(int a, unsigned b)
 	unsigned r;
 
 	while (b != 0) {
-		r = (unsigned)regular_div_with_rem(a, b).rem;
+		r = (unsigned)abs(div_with_neg_rem(a, b).rem);
 		a = (int)b;
 		b = r;
 	}
