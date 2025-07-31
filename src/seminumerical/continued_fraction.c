@@ -19,8 +19,12 @@ static double convergents_buf[MAX_LEN];
  * r_n-1 = q_n * r_n + 0
  *
  * Simple continued fraction:
- * a / b = [q_1;q_2,...q_n]
- * 
+ * a / b = [q_1;q_2,...q_n] = q_1 + _____________1_____________
+ *                                  q_2 + ___________1_________
+ *                                        q_3 + _______1_______
+ *                                              q_4 + ...
+ *                                                        + _1_
+ *                                                          q_n
  * Convergents:
  * [a_0;a_1,...,a_i] = p_i / q_i
  * p_n = [a_0,a_1,...,a_n] = a_n * p_n-1 + p_n-2
