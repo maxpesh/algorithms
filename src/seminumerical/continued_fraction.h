@@ -6,3 +6,4 @@ typedef struct {
 } cont_fract;
 
 cont_fract simple_cont_fraction(int, unsigned);
+cont_fract simple_cont_fraction_with_minuses(int, unsigned);
