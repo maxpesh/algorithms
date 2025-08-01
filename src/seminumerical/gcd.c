@@ -19,10 +19,11 @@
  * -best case: Θ(1), when b|a
  * -worst case: Θ(5v); v - # of digits in in, b < |a|
  */
-unsigned gcd_regular(int a, unsigned b)
+unsigned gcd_regular(int a, int bi)
 {
-	unsigned r;
+	unsigned b, r;
 
+	b = (unsigned)abs(bi);
 	while (b != 0) {
 		r = (unsigned)regular_div_with_rem(a, b).rem;
 		a = (int)b;
@@ -50,14 +51,27 @@ unsigned gcd_regular(int a, unsigned b)
  * -best case: Θ(1), when b|a
  * -worst case: Θ(b); b < |a|
  */
-unsigned gcd_with_neg_rem(int a, unsigned b)
+unsigned gcd_with_neg_rem(int a, int bi)
 {
-	unsigned r;
+	unsigned b, r;
 
+	b = (unsigned)abs(bi);
 	while (b != 0) {
 		r = (unsigned)abs(div_with_neg_rem(a, b).rem);
 		a = (int)b;
 		b = r;
 	}
 	return (unsigned)abs(a);
+}
+
+unsigned gcdn(int *nums, unsigned len)
+{
+	int a = *nums++;
+	int b;
+
+	while (--len > 0) {
+		b = *nums++;
+		a = (int)gcd_regular(a, b);
+	}
+	return (unsigned)a;
 }
